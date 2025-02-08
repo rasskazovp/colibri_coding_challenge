@@ -1,7 +1,7 @@
 resources:
   pipelines:
-    ingestion__turbine_sensors:
-      name: ingestion__turbine_sensors
+    e2e__turbine_sensors:
+      name: e2e__turbine_sensors
 
       catalog: colibri
       schema: bronze
@@ -9,7 +9,8 @@ resources:
 
       libraries:
         - notebook:
-            path: ../../scripts/pipelines/ingestion__turbine_sensors.py
+            path: ../../scripts/pipelines/e2e__turbine_sensors.py
 
       configuration:
         data.landing_root_path: ${var.landing_root_path}
+        bandle.src_file_path: ${workspace.file_path}/src

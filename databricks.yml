@@ -3,13 +3,10 @@ bundle:
 
 include:
   - resources/pipelines/*.yml
-  # - resources/jobs/*.yml
 
-artifacts:
-  default:
-    type: whl
-    build: poetry build
-    path: .
+variables:
+  landing_root_path:
+    description: Path to the landing zone. It must be a valid path in the Databricks workspace (abfss, volume, mount, etc).
 
 targets:
   dev:

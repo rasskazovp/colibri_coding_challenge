@@ -1,7 +1,18 @@
 # Databricks notebook source
+import sys
+
+sys.path.append(spark.conf.get("bandle.src_file_path"))
+
+# COMMAND ----------
 import dlt
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, current_timestamp, to_timestamp
+
+from colibri.turbine_sensors.gold import turbine_sensors_summarize
+from colibri.turbine_sensors.silver import (
+    turbine_sensors_anomalies_detection,
+    turbine_sensors_data_imputation,
+)
 
 # COMMAND ----------
 landing_root_path = spark.conf.get("data.landing_root_path", "")
@@ -36,3 +47,28 @@ def silver_turbine_sensors_cleaned() -> DataFrame:
         col("wind_direction").cast("int").alias("wind_direction"),
         col("power_output").cast("double").alias("power_output"),
     )
+
+
+# COMMAND ----------
+@dlt.view(name="vw_turbine_sensors_anomalies_detection")
+def vw_turbine_sensors_anomalies_detection() -> DataFrame:
+    """Detect anomalies in `power_output` of the turbine sensors data."""
+    return turbine_sensors_anomalies_detection(
+        dlt.read("silver.turbine_sensors_cleaned")
+    )
+
+
+# COMMAND ----------
+@dlt.table(name="silver.turbine_sensors_imputed")
+def silver_turbine_sensors_imputed() -> DataFrame:
+    """Impute missing or invalid values in the turbine sensors data."""
+    return turbine_sensors_data_imputation(
+        dlt.read("vw_turbine_sensors_anomalies_detection")
+    )
+
+
+# COMMAND ----------
+@dlt.table(name="gold.turbine_sensors_summary")
+def gold_turbine_sensors_summary() -> DataFrame:
+    """Summarize the turbine sensors data by day."""
+    return turbine_sensors_summarize(dlt.read("silver.turbine_sensors_imputed"), "day")
