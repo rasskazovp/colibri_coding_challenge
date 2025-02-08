@@ -1,0 +1,15 @@
+resources:
+  pipelines:
+    ingestion__turbine_sensors:
+      name: ingestion__turbine_sensors
+
+      catalog: colibri
+      schema: bronze
+      serverless: true
+
+      libraries:
+        - notebook:
+            path: ../../scripts/pipelines/ingestion__turbine_sensors.py
+
+      configuration:
+        data.landing_root_path: ${var.landing_root_path}

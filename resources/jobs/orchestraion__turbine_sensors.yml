@@ -1,0 +1,18 @@
+resources:
+  jobs:
+    orchestraion__turbine_sensors:
+      name: orchestraion__turbine_sensors
+
+      timeout_seconds: 3600
+
+      environments:
+        - environment_key: environment
+          spec:
+            client: "2"
+            dependencies:
+              - ../../dist/*.whl
+
+      tasks:
+        - task_key: ingestion__turbine_sensors
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.ingestion__turbine_sensors.id}
