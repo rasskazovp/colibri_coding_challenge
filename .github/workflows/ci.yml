@@ -86,7 +86,7 @@ jobs:
       - name: Run bundle validate
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          databricks bundle validate
+          databricks bundle validate --var="landing_root_path=/Dummy"
         env:
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
           DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
