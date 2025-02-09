@@ -85,9 +85,11 @@ def _turbine_sensors_fill_missing_records(df: DataFrame) -> DataFrame:
     :param df: Input turbine sensors DataFrame
     :return: DataFrame with filled missing records
     """
-    unique_dates_df = df.select(to_date("timestamp").alias("date")).distinct()
+    unique_dates_df = df.select(
+        to_date("timestamp").alias("date"), "turbine_id"
+    ).distinct()
     hourly_timestamps_df = unique_dates_df.withColumn(
         "hour_interval", explode(array([expr(f"INTERVAL {h} HOUR") for h in range(24)]))
-    ).select(expr("date + hour_interval").alias("timestamp"))
+    ).select(expr("date + hour_interval").alias("timestamp"), "turbine_id")
 
-    return hourly_timestamps_df.join(df, on="timestamp", how="left")
+    return hourly_timestamps_df.join(df, on=["turbine_id", "timestamp"], how="left")
