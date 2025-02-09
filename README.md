@@ -56,7 +56,7 @@ To deploy and run this project, the Databricks workspace must meet the following
 ### Deployment steps
 1. Set your Databricks Id in `databricks.yml` file.
 2. Create profile to connect your Databricks workspace (if not exists) `databricks auth login`
-2. Execute command `databricks bundle deploy --var="landing_root_path=<LANDING_PATH>" -p <YOUR_PROFILE_NAME>
+2. Execute command `databricks bundle deploy --var="landing_root_path=<LANDING_PATH>" -p <YOUR_PROFILE_NAME>`
 
 ### Execute tests
 Run `pytest` in yout IDE to execute defined unit tests.
