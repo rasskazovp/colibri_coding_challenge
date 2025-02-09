@@ -55,7 +55,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          poetry run pytest --html=test-results/report/index.html --cov=oel --cov-report html:test-results/coverage --verbose -s
+          poetry run pytest --html=test-results/report/index.html --cov=colibri --cov-report html:test-results/coverage --verbose -s
 
       - name: Publish test results report
         if: always()
