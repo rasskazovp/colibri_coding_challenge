@@ -11,6 +11,7 @@ Coding challenge solution provided by Pavlo Rasskazov
 ### Decisions
 - Ingestion to bronze, data type conversion, and data quality validation will be performed in a streaming manner.
 - Silver and gold layer processing will be performed in batches to utilize more complex anomaly detection and imputation logic.
+- `power_output` will be flaged as anomaly if it diviates for more then 2 standard deviations from average in range between -24 hours and +24 hours.
 - If a sensor reading provides invalid data or if a sensor reading is missing, then values will be imputed by finding an average between preceding and following readings for the same turbine. If a record doesn't have a next or previous value, then the imputed value will be set to the previous or next value (whichever is available).
 - Original `power_output` values will be maintained for traceability.
 - Sensor readings will be summarized on a daily level. The possibility for weekly and monthly summarization will also be implemented.
