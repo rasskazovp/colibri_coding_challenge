@@ -15,30 +15,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Databricks CLI
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew tap databricks/tap
-          brew install databricks
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
       - name: Check Databricks CLI version
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          databricks --version
-
-      - name: Install Poetry
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install poetry
-
-      - name: Check Poetry version
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          poetry --version
+        run: databricks --version
 
       - name: Run bundle deploy
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          databricks bundle deploy --target $TARGET
+        run: databricks bundle deploy --target $TARGET
         env:
           TARGET: ${{ vars.TARGET }}
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
@@ -54,30 +37,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Databricks CLI
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew tap databricks/tap
-          brew install databricks
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
       - name: Check Databricks CLI version
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          databricks --version
-
-      - name: Install Poetry
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install poetry
-
-      - name: Check Poetry version
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          poetry --version
+        run: databricks --version
 
       - name: Run bundle deploy
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          databricks bundle deploy --target $TARGET
+        run: databricks bundle deploy --target $TARGET
         env:
           TARGET: ${{ vars.TARGET }}
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
