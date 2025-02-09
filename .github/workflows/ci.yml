@@ -1,0 +1,93 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+  merge_group:
+    types: [checks_requested]
+
+jobs:
+  trufflehog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch main branch
+        run: git fetch origin main:main
+
+      - name: Run TruffleHog
+        run: |
+          docker run --rm -v .:/workdir -w /workdir \
+          ghcr.io/trufflesecurity/trufflehog:latest git file:///workdir/ \
+          --since-commit main --branch HEAD \
+          --results=verified,unknown \
+          --fail --no-update --github-actions
+
+  bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Bandit
+        run: |
+          pip install bandit[toml]
+
+      - name: Check Bandit version
+        run: |
+          bandit --version
+
+      - name: Run Bandit
+        run: |
+          bandit -c pyproject.toml -r .
+
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ruff
+        run: |
+          pipx install ruff
+
+      - name: Check ruff version
+        run: |
+          ruff --version
+
+      - name: Run ruff format
+        run: |
+          ruff format --diff
+
+      - name: Run ruff check
+        run: |
+          ruff check --diff
+
+  dab-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew tap databricks/tap
+          brew install databricks
+
+      - name: Check Databricks CLI version
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          databricks --version
+
+      - name: Run bundle validate
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          databricks bundle validate
+        env:
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
