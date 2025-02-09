@@ -28,7 +28,7 @@ def spark():
 
 @pytest.fixture
 def anomaly_detection_schema():
-    """Create a sample schema for testing."""
+    """Create a sample anomaly detection schema for testing."""
     return StructType(
         [
             StructField("turbine_id", StringType(), True),
@@ -44,7 +44,7 @@ def anomaly_detection_schema():
 
 @pytest.fixture
 def sample_data_with_issues(spark):
-    """Create a sample DataFrame for testing."""
+    """Create a sample DataFrame with missing records and `power_output` outliers."""
     schema = StructType(
         [
             StructField("turbine_id", StringType(), True),
@@ -81,7 +81,7 @@ def sample_data_with_issues(spark):
 
 @pytest.fixture
 def sample_data_clean(spark):
-    """Create a sample DataFrame for testing."""
+    """Create a sample DataFrame for testing with clean data."""
     schema = StructType(
         [
             StructField("turbine_id", StringType(), True),
@@ -121,7 +121,7 @@ def sample_data_clean(spark):
 def test_turbine_sensors_no_anomalies_detection(
     spark, sample_data_clean, anomaly_detection_schema
 ):
-    """Test the turbine_sensors_anomalies_detection function."""
+    """Test the turbine_sensors_anomalies_detection function (no anomalies)."""
     result_df = turbine_sensors_anomalies_detection(sample_data_clean)
 
     expected_data = [
