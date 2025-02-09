@@ -64,13 +64,18 @@ Run `pytest` in yout IDE to execute defined unit tests.
 
 
 # Extras
+
+### CI/CD
+A sample CI/CD pipeline has been configured using free tools to enhance collaboration, security, and code quality in the project.
+
+- `dab-validate` – Validates the Databricks Asset Bundle (DAB) to ensure correct configuration.
+- `trufflehog` – Scans pull requests to detect leaked secrets in commits.
+- `bandit` – Analyzes Python code for common security vulnerabilities.
+- `ruff` – Ensures code quality by checking Python linting and formatting.
+- `pyspark-unit-tests` – Runs unit tests specifically designed for PySpark applications.
+- Multi-stage deployment – Supports structured progressive deployments across environments.
+
+### Other tools
 - poetry
 - pytest
 - pre-commit
-- ci/cd
-    - unit-test
-    - trufflehog
-    - bandit
-    - ruff
-    - dab-validate
-    - multi-stage deployment
