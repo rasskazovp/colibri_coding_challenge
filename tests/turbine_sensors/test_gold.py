@@ -17,7 +17,7 @@ from colibri.turbine_sensors.gold import turbine_sensors_summarize
 @pytest.fixture
 def spark():
     """Create a SparkSession for testing."""
-    return SparkSession.builder.master().getOrCreate()
+    return SparkSession.builder.getOrCreate()
 
 
 @pytest.fixture
