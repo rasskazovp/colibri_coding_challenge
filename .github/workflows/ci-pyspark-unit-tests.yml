@@ -3,8 +3,8 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - src/**
+    # paths:
+    #   - src/**
   merge_group:
     types: [checks_requested]
 
@@ -43,7 +43,7 @@ jobs:
           echo "SPARK_HOME=$HOME/spark" >> $GITHUB_ENV
           echo "HADOOP_HOME=$HOME/hadoop" >> $GITHUB_ENV
           echo "PATH=$HOME/spark/bin:$HOME/hadoop/bin:$PATH" >> $GITHUB_ENV
-      
+
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
